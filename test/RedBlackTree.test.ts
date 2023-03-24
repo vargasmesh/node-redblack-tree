@@ -1,22 +1,20 @@
 import { RedBlackTree, Node } from "../src/RedBlackTree";
 
-/*
-        7
-     /    \
-    4      11    -> x
-   / \    /  \
-  3   6  9    18 -> y
- /          /    \
-2         14      19
-         /  \       \
-        12   17     22
-                   /
-                  20
-*/
-
 test("rotate left", () => {
-  const tree = new RedBlackTree();
-  tree
+  /*
+        7                             7
+     /    \                        /     \
+    4      11                     4      18 
+   / \    /  \                   / \     /   \
+  3   6  9    18        ->      3   6  11    19
+ /          /    \             /      /    /    \
+2         14      19          2      9    14    19
+         /  \       \                    /  \     \
+        12   17     22                  12   17   22
+                   /                             /
+                  20                           20
+*/
+  const tree = new RedBlackTree()
     .insert(7)
     .insert(4)
     .insert(3)
