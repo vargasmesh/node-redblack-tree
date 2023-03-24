@@ -15,7 +15,7 @@ class Node {
 
   insert = (node: Node): Node => {
     if (node.key > this.key) {
-      if (this.right) {
+      if (this.right !== null) {
         this.right.insert(node);
       } else {
         this.right = node;
@@ -24,7 +24,7 @@ class Node {
     }
 
     if (node.key < this.key) {
-      if (this.left) {
+      if (this.left !== null) {
         this.left.insert(node);
       } else {
         this.left = node;
@@ -37,7 +37,7 @@ class Node {
 }
 
 class RedBlackTree {
-  public root?: Node;
+  public root: Node = null;
 
   insert = (key: number): RedBlackTree => {
     if (!this.root) {
