@@ -1,3 +1,3 @@
-import RedBlackTree from "./RedBlackTree";
+import { RedBlackTree } from "./RedBlackTree";
 
 const tree = new RedBlackTree();
