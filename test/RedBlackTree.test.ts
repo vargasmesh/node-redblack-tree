@@ -1,18 +1,19 @@
 import { RedBlackTree, Node } from "../src/RedBlackTree";
+import { preorder, addToArray } from "../src/traversal";
 
 test("rotate left", () => {
   /*
         7                             7
      /    \                        /     \
-    4      11                     4      18 
+    4      11                     4       18 
    / \    /  \                   / \     /   \
-  3   6  9    18        ->      3   6  11    19
- /          /    \             /      /    /    \
-2         14      19          2      9    14    19
-         /  \       \                    /  \     \
-        12   17     22                  12   17   22
-                   /                             /
-                  20                           20
+  3   6  9    18        ->      3   6  11     19
+ /          /    \             /      /     /    \
+2         14      19          2      9     14     22
+         /  \       \                     /  \    /
+        12   17     22                   12   17 20
+                   /                             
+                  20
 */
   const tree = new RedBlackTree()
     .insert(7)
@@ -30,6 +31,10 @@ test("rotate left", () => {
     .insert(22)
     .insert(20);
 
+  const expected = [7, 4, 3, 2, 6, 11, 9, 18, 14, 12, 17, 19, 22, 20];
+  const result = [];
+  preorder(tree.root, addToArray(result));
+
   tree.leftRotate(tree.root?.right as Node);
 
   const node18 = tree.root?.right as Node;
@@ -37,4 +42,5 @@ test("rotate left", () => {
   expect(node18.key).toBe(18);
   expect(node18.left?.key).toBe(11);
   expect(node18.left?.right?.key).toBe(14);
+  expect(expected).toEqual(result);
 });

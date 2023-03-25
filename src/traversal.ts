@@ -1,5 +1,7 @@
 import { Node } from "./RedBlackTree";
 
+const addToArray = (arr: number[]) => (key: number) => arr.push(key);
+
 type TraversalFunc = (key: number) => void;
 
 const inorder = (node?: Node, f: TraversalFunc = console.log) => {
@@ -29,4 +31,4 @@ const preorder = (node?: Node, f: TraversalFunc = console.log) => {
   preorder(node.right, f);
 };
 
-export { inorder, postorder, preorder };
+export { inorder, postorder, preorder, addToArray };
