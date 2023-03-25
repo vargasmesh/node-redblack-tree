@@ -44,3 +44,16 @@ test("rotate left", () => {
   expect(node18.left?.right?.key).toBe(14);
   expect(expected).toEqual(result);
 });
+
+test("rotate right", () => {
+  const input = [10, 5, 2, 8, 6, 9, 12];
+  const expected = [5, 2, 10, 8, 6, 9, 12];
+
+  const tree = new RedBlackTree();
+  input.forEach((key) => tree.insert(key));
+
+  tree.rightRotate(tree.root as Node);
+  const result = [];
+  preorder(tree.root, addToArray(result));
+  expect(expected).toEqual(result);
+});

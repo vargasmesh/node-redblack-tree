@@ -50,6 +50,24 @@ class RedBlackTree {
     return this;
   };
 
+  rightRotate(x: Node) {
+    const y = x.left;
+    x.left = y.right;
+    if (y.right !== null) {
+      y.right.parent = x;
+    }
+    y.parent = x.parent;
+    if (x.parent === null) {
+      this.root = y;
+    } else if (x === x.parent.right) {
+      x.parent.right = y;
+    } else {
+      x.parent.left = y;
+    }
+    y.right = x;
+    x.parent = y;
+  }
+
   leftRotate(x: Node) {
     const y = x.right;
     x.right = y.left;
