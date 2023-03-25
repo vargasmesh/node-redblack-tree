@@ -1,16 +1,21 @@
+enum Color {
+  RED,
+  BLACK,
+}
+
 class Node {
   public key: number;
   public left?: Node;
   public right?: Node;
   public parent?: Node;
-  public color: string;
+  public color: Color;
 
   constructor(key: number) {
     this.key = key;
     this.left = null;
     this.right = null;
     this.parent = null;
-    this.color = "black";
+    this.color = Color.BLACK;
   }
 
   insert = (node: Node): Node => {
