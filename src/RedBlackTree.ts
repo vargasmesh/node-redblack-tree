@@ -69,43 +69,43 @@ class RedBlackTree {
     x.parent = y;
   }
 
-  private insertFixup(z: Node) {
-    while (z.parent.color === Color.RED) {
-      if (z.parent === z.parent.parent.left) {
-        const y = z.parent.parent.right;
+  private insertFixup(node: Node) {
+    while (node.parent.color === Color.RED) {
+      if (node.parent === node.parent.parent.left) {
+        const uncle = node.parent.parent.right;
 
-        if (y.color === Color.RED) {
-          z.parent.color = Color.BLACK;
-          y.color = Color.BLACK;
-          z.parent.parent.color = Color.RED;
-          z = z.parent.parent;
+        if (uncle.color === Color.RED) {
+          node.parent.color = Color.BLACK;
+          uncle.color = Color.BLACK;
+          node.parent.parent.color = Color.RED;
+          node = node.parent.parent;
         } else {
-          if (z === z.parent.right) {
-            z = z.parent;
-            this.leftRotate(z);
+          if (node === node.parent.right) {
+            node = node.parent;
+            this.leftRotate(node);
           }
 
-          z.parent.color = Color.BLACK;
-          z.parent.parent.color = Color.RED;
-          this.rightRotate(z.parent.parent);
+          node.parent.color = Color.BLACK;
+          node.parent.parent.color = Color.RED;
+          this.rightRotate(node.parent.parent);
         }
       } else {
-        const y = z.parent.parent.left;
+        const uncle = node.parent.parent.left;
 
-        if (y.color === Color.RED) {
-          z.parent.color = Color.BLACK;
-          y.color = Color.BLACK;
-          z.parent.parent.color = Color.RED;
-          z = z.parent.parent;
+        if (uncle.color === Color.RED) {
+          node.parent.color = Color.BLACK;
+          uncle.color = Color.BLACK;
+          node.parent.parent.color = Color.RED;
+          node = node.parent.parent;
         } else {
-          if (z === z.parent.left) {
-            z = z.parent;
-            this.rightRotate(z);
+          if (node === node.parent.left) {
+            node = node.parent;
+            this.rightRotate(node);
           }
 
-          z.parent.color = Color.BLACK;
-          z.parent.parent.color = Color.RED;
-          this.leftRotate(z.parent.parent);
+          node.parent.color = Color.BLACK;
+          node.parent.parent.color = Color.RED;
+          this.leftRotate(node.parent.parent);
         }
       }
     }
