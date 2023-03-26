@@ -114,35 +114,35 @@ class RedBlackTree {
   }
 
   public insert(key: number): RedBlackTree {
-    const z = new Node(key, Color.RED);
-    let y = this.nil;
-    let x = this.root;
+    const newNode = new Node(key, Color.RED);
+    let parent = this.nil;
+    let currentNode = this.root;
 
-    while (x !== this.nil) {
-      y = x;
+    while (currentNode !== this.nil) {
+      parent = currentNode;
 
-      if (z.key < x.key) {
-        x = x.left;
+      if (newNode.key < currentNode.key) {
+        currentNode = currentNode.left;
       } else {
-        x = x.right;
+        currentNode = currentNode.right;
       }
     }
 
-    z.parent = y;
+    newNode.parent = parent;
 
-    if (y === this.nil) {
-      this.root = z;
-    } else if (z.key < y.key) {
-      y.left = z;
+    if (parent === this.nil) {
+      this.root = newNode;
+    } else if (newNode.key < parent.key) {
+      parent.left = newNode;
     } else {
-      y.right = z;
+      parent.right = newNode;
     }
 
-    z.left = this.nil;
-    z.right = this.nil;
-    z.color = Color.RED;
+    newNode.left = this.nil;
+    newNode.right = this.nil;
+    newNode.color = Color.RED;
 
-    this.insertFixup(z);
+    this.insertFixup(newNode);
 
     return this;
   }
