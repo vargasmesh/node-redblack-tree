@@ -1,7 +1,10 @@
 import { RedBlackTree, Node } from "../src/RedBlackTree";
-import { preorder, addToArray } from "../src/traversal";
+import { preorder } from "../src/traversal";
 
-test("rotate left", () => {
+const addToKeyColor = (arr) => (node: Node) =>
+  arr.push({ key: node.key, color: node.color });
+
+test("insert", () => {
   /*
         7                             7
      /    \                        /     \
@@ -31,29 +34,67 @@ test("rotate left", () => {
     .insert(22)
     .insert(20);
 
-  const expected = [7, 4, 3, 2, 6, 11, 9, 18, 14, 12, 17, 19, 22, 20];
+  const expected = [
+    {
+      key: 7,
+      color: "black",
+    },
+    {
+      key: 4,
+      color: "black",
+    },
+    {
+      key: 3,
+      color: "black",
+    },
+    {
+      key: 2,
+      color: "red",
+    },
+    {
+      key: 6,
+      color: "black",
+    },
+    {
+      key: 11,
+      color: "black",
+    },
+    {
+      key: 9,
+      color: "black",
+    },
+    {
+      key: 18,
+      color: "red",
+    },
+    {
+      key: 14,
+      color: "black",
+    },
+    {
+      key: 12,
+      color: "red",
+    },
+    {
+      key: 17,
+      color: "red",
+    },
+    {
+      key: 20,
+      color: "black",
+    },
+    {
+      key: 19,
+      color: "red",
+    },
+    {
+      key: 22,
+      color: "red",
+    },
+  ];
+
   const result = [];
-  preorder(tree.root, addToArray(result));
+  preorder(tree.root, addToKeyColor(result));
 
-  tree.leftRotate(tree.root?.right as Node);
-
-  const node18 = tree.root?.right as Node;
-
-  expect(node18.key).toBe(18);
-  expect(node18.left?.key).toBe(11);
-  expect(node18.left?.right?.key).toBe(14);
-  expect(expected).toEqual(result);
-});
-
-test("rotate right", () => {
-  const input = [10, 5, 2, 8, 6, 9, 12];
-  const expected = [5, 2, 10, 8, 6, 9, 12];
-
-  const tree = new RedBlackTree();
-  input.forEach((key) => tree.insert(key));
-
-  tree.rightRotate(tree.root as Node);
-  const result = [];
-  preorder(tree.root, addToArray(result));
   expect(expected).toEqual(result);
 });

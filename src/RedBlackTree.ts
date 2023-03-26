@@ -1,94 +1,150 @@
 enum Color {
-  RED,
-  BLACK,
+  RED = "red",
+  BLACK = "black",
 }
 
 class Node {
-  public key: number;
-  public left?: Node;
-  public right?: Node;
-  public parent?: Node;
-  public color: Color;
+  key: number;
+  color: Color;
+  left: Node;
+  right: Node;
+  parent: Node;
 
-  constructor(key: number) {
+  constructor(key: number, color: Color = Color.BLACK) {
     this.key = key;
-    this.left = null;
-    this.right = null;
-    this.parent = null;
-    this.color = Color.BLACK;
+    this.color = color;
   }
-
-  insert = (node: Node): Node => {
-    if (node.key > this.key) {
-      if (this.right !== null) {
-        this.right.insert(node);
-      } else {
-        this.right = node;
-        node.parent = this;
-      }
-    }
-
-    if (node.key < this.key) {
-      if (this.left !== null) {
-        this.left.insert(node);
-      } else {
-        this.left = node;
-        node.parent = this;
-      }
-    }
-
-    return this;
-  };
 }
 
 class RedBlackTree {
-  public root: Node = null;
+  public nil: Node;
+  public root: Node;
 
-  insert = (key: number): RedBlackTree => {
-    if (!this.root) {
-      this.root = new Node(key);
-      return this;
-    }
-    const node = new Node(key);
-    this.root.insert(node);
-
-    return this;
-  };
-
-  rightRotate(x: Node) {
-    const y = x.left;
-    x.left = y.right;
-    if (y.right !== null) {
-      y.right.parent = x;
-    }
-    y.parent = x.parent;
-    if (x.parent === null) {
-      this.root = y;
-    } else if (x === x.parent.right) {
-      x.parent.right = y;
-    } else {
-      x.parent.left = y;
-    }
-    y.right = x;
-    x.parent = y;
+  constructor() {
+    this.nil = new Node(null, Color.BLACK);
+    this.root = this.nil;
   }
 
-  leftRotate(x: Node) {
+  public leftRotate(x: Node) {
     const y = x.right;
     x.right = y.left;
-    if (y.left !== null) {
+
+    if (y.left !== this.nil) {
       y.left.parent = x;
     }
+
     y.parent = x.parent;
-    if (x.parent === null) {
+
+    if (x.parent === this.nil) {
       this.root = y;
     } else if (x === x.parent.left) {
       x.parent.left = y;
     } else {
       x.parent.right = y;
     }
+
     y.left = x;
     x.parent = y;
+  }
+
+  public rightRotate(x: Node) {
+    const y = x.left;
+    x.left = y.right;
+
+    if (y.right !== this.nil) {
+      y.right.parent = x;
+    }
+
+    y.parent = x.parent;
+
+    if (x.parent === this.nil) {
+      this.root = y;
+    } else if (x === x.parent.right) {
+      x.parent.right = y;
+    } else {
+      x.parent.left = y;
+    }
+
+    y.right = x;
+    x.parent = y;
+  }
+
+  private insertFixup(z: Node) {
+    while (z.parent.color === Color.RED) {
+      if (z.parent === z.parent.parent.left) {
+        const y = z.parent.parent.right;
+
+        if (y.color === Color.RED) {
+          z.parent.color = Color.BLACK;
+          y.color = Color.BLACK;
+          z.parent.parent.color = Color.RED;
+          z = z.parent.parent;
+        } else {
+          if (z === z.parent.right) {
+            z = z.parent;
+            this.leftRotate(z);
+          }
+
+          z.parent.color = Color.BLACK;
+          z.parent.parent.color = Color.RED;
+          this.rightRotate(z.parent.parent);
+        }
+      } else {
+        const y = z.parent.parent.left;
+
+        if (y.color === Color.RED) {
+          z.parent.color = Color.BLACK;
+          y.color = Color.BLACK;
+          z.parent.parent.color = Color.RED;
+          z = z.parent.parent;
+        } else {
+          if (z === z.parent.left) {
+            z = z.parent;
+            this.rightRotate(z);
+          }
+
+          z.parent.color = Color.BLACK;
+          z.parent.parent.color = Color.RED;
+          this.leftRotate(z.parent.parent);
+        }
+      }
+    }
+
+    this.root.color = Color.BLACK;
+  }
+
+  public insert(key: number): RedBlackTree {
+    const z = new Node(key, Color.RED);
+    let y = this.nil;
+    let x = this.root;
+
+    while (x !== this.nil) {
+      y = x;
+
+      if (z.key < x.key) {
+        x = x.left;
+      } else {
+        x = x.right;
+      }
+    }
+
+    z.parent = y;
+
+    if (y === this.nil) {
+      this.root = z;
+    } else if (z.key < y.key) {
+      y.left = z;
+    } else {
+      y.right = z;
+    }
+
+    z.left = this.nil;
+    z.right = this.nil;
+    z.color = Color.RED;
+
+    this.insertFixup(z);
+
+    return this;
   }
 }
 
